@@ -29,7 +29,7 @@
 			});
 			
 			
-			//==> logout Event 연결처리부분
+			//==> login Event 연결처리부분
 			//==> DOM Object GET 3가지 방법 ==> 1. $(tagName) : 2.(#id) : 3.$(.className)
 		 	$( "td[width='56']:contains('logout')" ).on("click" , function() {
 				//Debug..
@@ -50,18 +50,28 @@
 	<td height="10" >&nbsp;</td>
   </tr>
   <tr>
-    <td width="800" height="30"><h2>Model2 MVC Shop</h2></td>
+    <td width="800" height="30"><h2>Model2 MVC Shop &nbsp; &nbsp; &nbsp; &nbsp; ${user.userName}님 기다렸습니다.</h2></td>
   </tr>
   <tr>
     <td height="20" align="right" background="/images/img_bg.gif">
 	    <table width="200" border="0" cellspacing="0" cellpadding="0">
 	        <tr> 
 	          <td width="115">
-		          <c:if test="${ empty user }">login</c:if>   
+		          <c:if test="${ empty user }">
+		              <!-- ////////////////// jQuery Event 처리로 변경됨 ///////////////////////// 
+						<a href="/user/login" target="rightFrame">login</a>	
+						////////////////////////////////////////////////////////////////////////////////////////////////// -->
+						login
+		           </c:if>   
 	          </td>
 	          <td width="14">&nbsp;</td>
 	          <td width="56">
-		          <c:if test="${ ! empty user }">logout </c:if>
+		          <c:if test="${ ! empty user }">
+		          		 <!-- ////////////////// jQuery Event 처리로 변경됨 ///////////////////////// 
+		            	<a href="/logout.do" target="_parent">logout</a>
+						////////////////////////////////////////////////////////////////////////////////////////////////// -->
+		            	logout
+		           </c:if>
 	          </td>
 	        </tr>
 	      </table>
