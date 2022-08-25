@@ -36,15 +36,20 @@
 			self.location ="/product/getProduct?prodNo="+$(this).parent().attr("id").trim();
 		}); */
 		 
-		 $( ".ct_list_pop td:nth-child(3)").on("click", function() {			
-				
+		 $( ".ct_list_pop td:nth-child(3)").on("click", function() {
+				console.log('ddd');
 			 	/* if(${param.menu == 'search'}){
 			 		self.location ="/product/getProduct?prodNo="+$(this).parent().attr("id").trim()+"&menu=search";
 			 	}else{
 			 		self.location ="/product/updateProduct?prodNo="+$(this).parent().attr("id").trim()+"&menu=manage";
 			 	} */
-			 	var prodNo = $(this).parent().attr("id").trim()+"&menu=search";
-			 	$.ajax(
+			 	//var prodNo = $(this).parent().attr("id").trim()+"&menu=search";
+			 	
+			 	if(${param.menu == 'search'}){			 		
+			 	
+			 	var prodNo = $(this).parent().attr("id").trim();
+			 				 				 	
+ 			 	$.ajax(
 			 			{
 			 				url : "/product/json/getProduct/"+prodNo ,
 			 				method : "GET" ,
@@ -55,7 +60,7 @@
 			 				},
 			 				success : function(JSONData , status){
 			 					
-			 					var displayValue + "<h3>"
+			 					var displayValue = "<h3>"
 			 												+"상품번호 : "+JSONData.prodNo+"<br/>"
 			 												+"상품명 : "+JSONData.prodName+"<br/>"
 			 												+"상품이미지 : "+JSONData.fileName+"<br/>"
@@ -65,16 +70,21 @@
 			 												+"등록일자 : "+JSONData.regDateString+"<br/>"
 			 												+"</h3>";
 			 											
+			 												console.log(displayValue);
 			 											$("h3").remove();
-			 											$("#"+prodNo+"").html(displayValue);
+			 										 	/* $("#"+prodNo+"").html(displayValue); */
+			 										 	
+			 										 	$("td[id='"+prodNo+"']").html(displayValue);
+			 										 	//$("td[id='"+prodNo+"']").dialog(); 
 			 				}
-			 			});
-			});
+			 			}); 			 			
+			 	}
+			 	else{
+			 		self.location ="/product/updateProduct?prodNo="+$(this).parent().attr("id").trim()+"&menu=manage";
+			 		}
+			 	});		
 		
-		
-		
-		$( ".ct_list_pop td:nth-child(3)").css("color", "red");
-		$("h7").css("color" , "red");
+		$( ".ct_list_pop td:nth-child(3)").css("color", "blue");
 						
 		$( ".ct_list_pop:nth-child(4n+6)").css("background-color","whitesmoke");
 		
@@ -180,20 +190,16 @@
 	<c:set var="i" value="0" />
 	<c:forEach var="product" items="${list}">
 		<c:set var="i" value="${i+1}" />
-	<tr class="ct_list_pop" id="${ product.prodNo}">
+	 <tr class="ct_list_pop" id="${ product.prodNo}">	
 		<td align="center">${i}</td>
 		<td></td>
 		<c:if test="${param.menu == 'search'}">
 	 		<td align="left">
-	 		 <%-- <a href="/product/getProduct?prodNo=${product.prodNo }">${product.prodName }</a> --%>
 	 			${product.prodName}
 	 		</td>  
 		</c:if>		
 		<c:if test="${param.menu == 'manage'}">
-<%--  			<td align="left"><a href="/updateProductView.do?prodNo=${product.prodNo }">${product.prodName }</a></td> --%>
-<%--  			<td align="left"><a href="/product/updateProductView?prodNo=${product.prodNo }">${product.prodName }</a></td> --%>
 			<td align="left">
-			<%-- <a href="/product/updateProduct?prodNo=${product.prodNo }">${product.prodName }</a> --%>
 			${product.prodName}
 			</td>
 			
@@ -206,10 +212,12 @@
 		<td align="left">
 			현재상태
 		</td>
-	</tr>
+	<!-- </tr> -->
+	
 	<tr>
-	<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+	<td colspan="11" id="${product.prodNo}" bgcolor="D6D7D6" height="1"></td>
 	</tr>
+	
 	
 	</c:forEach>
 
